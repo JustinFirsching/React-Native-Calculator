@@ -32,7 +32,6 @@ export const Screen: React.FC<ScreenProps> = ({ expression }) => {
     if (evaluation === null) {
       evaluation = Number(expression.lastTerm)
     }
-    console.log(evaluation.toString(), evaluation.toString().length)
     setDisplayValue(evaluation.toLocaleString(undefined, {
       notation: evaluation.toString().length > 9 ? "scientific" : "standard",
     }))
