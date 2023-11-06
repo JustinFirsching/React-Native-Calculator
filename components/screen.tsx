@@ -11,8 +11,19 @@ export const Screen: React.FC<ScreenProps> = ({ expression }) => {
   var [displayTerm, setDisplayTerm] = useState("0")
   var [displayValue, setDisplayValue] = useState("0")
   useEffect(() => {
-    // Display the current term, unless it is "", in which case, display 0
-    setDisplayTerm(Number(expression.currentTerm).toLocaleString())
+    var term = expression.currentTerm
+    const trailingDecimal = expression.currentTerm.endsWith(".")
+    // Drop the decimal to avoid NaN, but still get the rest of the formatting
+    if (trailingDecimal) {
+      term = term.slice(0, expression.currentTerm.length - 1)
+    }
+
+    var displayTerm = Number(term).toLocaleString()
+    // Add the decimal back
+    if (trailingDecimal) {
+      displayTerm += "."
+    }
+    setDisplayTerm(displayTerm)
 
     var evaluation = evaluateExpression(expression)
     if (evaluation === null) {

@@ -22,26 +22,29 @@ export const KeyPad: React.FC<KeyPadProps> = ({ expression, setExpression }) => 
   const appendTerm = (str: string) => {
     setClearButtonText("C")
 
-    var newTerm = expression.currentTerm || ""
-    if (expression.currentTerm === '0') {
-      if (str === '0') {
-        // Don't prepend 0s
+    var newTerm: string
+    if (str === "0" && expression.currentTerm === "0") {
+      // Handle 0s
+      newTerm = expression.currentTerm
+    } else if (str === ".") {
+      // If we already have a decimal, ignore this.
+      if (expression.currentTerm.includes(".")) {
         return
-      } else {
-        // Delete leading 0s if we get a number
-        newTerm = str
       }
+      // Append the decimal, but prefix if needed
+      newTerm = (expression.currentTerm || "0") + str
+    } else {
+      // All other, just append the string
+      newTerm = expression.currentTerm + str
     }
-    newTerm += str
-    console.log(newTerm)
     setExpression(expression.withCurrentTerm(newTerm))
   }
 
   const switchSign = (_: string) => {
-    var newTerm: string
+    var newTerm: string = expression.currentTerm
     if (expression.currentTerm.startsWith('-')) {
       newTerm = expression.currentTerm.slice(1)
-    } else {
+    } else if ((expression.currentTerm || "0") !== "0") {
       newTerm = '-' + expression.currentTerm
     }
     setExpression(expression.withCurrentTerm(newTerm))
