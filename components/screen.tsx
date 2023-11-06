@@ -18,8 +18,11 @@ export const Screen: React.FC<ScreenProps> = ({ expression }) => {
       term = term.slice(0, expression.currentTerm.length - 1)
     }
 
-    var displayTerm = Number(term).toLocaleString(undefined, {maximumFractionDigits: 20})
-    // Add the decimal back
+    // Trim to 9 characters
+    var displayTerm = Number(term).toLocaleString(undefined, {
+      notation: term.length > 9 ? "scientific" : "standard",
+    })
+    // dd the decimal back
     if (trailingDecimal) {
       displayTerm += "."
     }
@@ -29,7 +32,10 @@ export const Screen: React.FC<ScreenProps> = ({ expression }) => {
     if (evaluation === null) {
       evaluation = Number(expression.lastTerm)
     }
-    setDisplayValue(evaluation.toLocaleString())
+    console.log(evaluation.toString(), evaluation.toString().length)
+    setDisplayValue(evaluation.toLocaleString(undefined, {
+      notation: evaluation.toString().length > 9 ? "scientific" : "standard",
+    }))
   }, [expression]);
 
   return (
