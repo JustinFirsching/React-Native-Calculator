@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { evaluateExpression } from '../src/evaluate';
+import { Expression } from '../src/expression';
 
 interface ScreenProps {
-  expression: string[],
-  term: string,
+  expression: Expression,
 }
 
-export const Screen: React.FC<ScreenProps> = ({expression, term}) => {
-  var [displayTerm, setDisplayTerm] = useState(0)
+export const Screen: React.FC<ScreenProps> = ({ expression }) => {
+  var [displayTerm, setDisplayTerm] = useState("0")
+  var [displayValue, setDisplayValue] = useState("0")
   useEffect(() => {
-    const nextDisplayTerm = Number(term)
-    console.log(`Term is now ${term}`)
-    if (!isNaN(nextDisplayTerm)) {
-        setDisplayTerm(nextDisplayTerm)
-    }
-  }, [term]);
+    // Display the current term, unless it is "", in which case, display 0
+    setDisplayTerm(Number(expression.currentTerm).toLocaleString() || "0")
 
-  var [displayValue, setDisplayValue] = useState(0)
-  useEffect(() => {
-    console.log(`Expression is now ${expression}`)
-    var exp = [...expression]
-    if (term === "") {
-        exp.pop()
-    }
-    const evaluation = evaluateExpression([...exp, term]) || 0
-    setDisplayValue(evaluation)
-  }, [term, expression]);
+    const evaluation = evaluateExpression(expression) || Number(expression.lastTerm)
+    setDisplayValue(evaluation.toLocaleString())
+  }, [expression]);
 
   return (
     <View style={styles.screenContainer}>
