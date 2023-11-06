@@ -18,7 +18,7 @@ export const Screen: React.FC<ScreenProps> = ({ expression }) => {
       term = term.slice(0, expression.currentTerm.length - 1)
     }
 
-    var displayTerm = Number(term).toLocaleString()
+    var displayTerm = Number(term).toLocaleString(undefined, {maximumFractionDigits: 20})
     // Add the decimal back
     if (trailingDecimal) {
       displayTerm += "."
