@@ -12,9 +12,12 @@ export const Screen: React.FC<ScreenProps> = ({ expression }) => {
   var [displayValue, setDisplayValue] = useState("0")
   useEffect(() => {
     // Display the current term, unless it is "", in which case, display 0
-    setDisplayTerm(Number(expression.currentTerm).toLocaleString() || "0")
+    setDisplayTerm(Number(expression.currentTerm).toLocaleString())
 
-    const evaluation = evaluateExpression(expression) || Number(expression.lastTerm)
+    var evaluation = evaluateExpression(expression)
+    if (evaluation === null) {
+      evaluation = Number(expression.lastTerm)
+    }
     setDisplayValue(evaluation.toLocaleString())
   }, [expression]);
 
