@@ -1,13 +1,12 @@
 import { evaluate } from 'mathjs';
+import { Expression } from './expression'
 
-export function evaluateExpression(expression: string | string[]): number | null {
-  var expr: string
-  if (Array.isArray(expression)) {
-    expr = expression.join(" ")
-  } else {
-    expr = expression
+export function evaluateExpression(expression: Expression): number | null {
+  if (!expression.isReady()) {
+    return null
   }
 
+  const expr = expression.toString()
   console.log(`Attempting to evaluate expression: ${expr}`)
   try {
     const result = evaluate(expr)
