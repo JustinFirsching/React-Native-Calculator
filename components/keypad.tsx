@@ -80,6 +80,25 @@ export const KeyPad: React.FC<KeyPadProps> = ({ expression, setExpression }) => 
     }
   }
 
+  const percent = (_: string) => {
+    console.log(expression)
+    if (expression.lastTerm === "") {
+      if (expression.currentTerm === "") {
+        // No-op if there are no terms
+        return
+      }
+
+      // If there is only one term, treat it as a percentage of 100
+      const pct = Number(expression.currentTerm) / 100.0
+      setExpression(expression.withCurrentTerm(pct.toString()))
+    } else {
+      // Shoutout to copilot for getting this one really close
+      // If there are two terms, treat the second as a percentage of the first
+      const pct = Number(expression.lastTerm) * Number(expression.currentTerm) / 100.0
+      setExpression(expression.withCurrentTerm(pct.toString()))
+    }
+  }
+
   return (
     <View style={style.keypad}>
       <ButtonGroup
@@ -94,6 +113,7 @@ export const KeyPad: React.FC<KeyPadProps> = ({ expression, setExpression }) => 
           },
           {
             val: '%',
+            onPress: percent,
           },
           {
             val: '÷',
