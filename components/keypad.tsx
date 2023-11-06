@@ -84,7 +84,6 @@ export const KeyPad: React.FC<KeyPadProps> = ({ expression, setExpression }) => 
   }
 
   const percent = (_: string) => {
-    console.log(expression)
     if (expression.lastTerm === "") {
       if (expression.currentTerm === "") {
         // No-op if there are no terms
