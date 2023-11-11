@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
+    alignItems: "center",
   },
   safeAreaView: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
 });
